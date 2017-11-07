@@ -9,5 +9,7 @@ RUN ./configure --prefix=/opt/keepalived && make && make install
 
 FROM alpine:latest
 RUN apk add --no-cache openssl libnl3 libnfnetlink
-COPY --from=0 /opt/keepalived /opt/keepalived
-
+COPY --from=0 /opt/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/
+COPY --from=0 /opt/keepalived/bin /usr/bin
+COPY --from=0 /opt/keepalived/sbin /usr/sbin
+CMD ["/usr/sbin/keepalived", "-nl"]
