@@ -6,6 +6,10 @@ global_defs {
    vrrp_gna_interval 0
 }
 
+vrrp_script health_check {
+  script "/bin/busybox wget -q -Y off -O /dev/null '{{ env "HEALTH_CHECK_URL" }}'"
+}
+
 {{ scratch.Set "local_priority" (modulo 256 (parseUint (printf "%.0f" (multiply 1000 (parseFloat (timestamp "00.000")))))) }}
 {{ scratch.Set "ips" (env "IP_ADDRESSES" | split ",") }}
 {{ scratch.Set "pri_offset" (divide (scratch.Get "ips" | len) 256) }}
@@ -22,6 +26,9 @@ vrrp_instance VI_{{ $i }} {
     }
     virtual_ipaddress {
         {{ $ip }}
+    }
+    track_script {
+        health_check
     }
 }
 {{ end }}
