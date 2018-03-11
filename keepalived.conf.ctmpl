@@ -19,7 +19,7 @@ vrrp_instance VI_{{ $i }} {
     interface {{ env "KA_INTERFACE" }}
     virtual_router_id {{ add $i (parseUint (env "KA_ROUTER_ID")) }}
     priority {{ modulo 256 (add (multiply $i (scratch.Get "pri_offset")) (parseUint (env "BASE_PRIORITY"))) }}
-    advert_int 1
+    advert_int {{ env "KA_INTERVAL" }}
     authentication {
         auth_type PASS
         auth_pass 1111
