@@ -7,6 +7,7 @@ global_defs {
 }
 
 vrrp_script health_check {
+  interval {{ env "KA_INTERVAL" }}
   script "/bin/busybox wget -q -Y off -O /dev/null '{{ env "HEALTH_CHECK_URL" }}'"
 }
 
