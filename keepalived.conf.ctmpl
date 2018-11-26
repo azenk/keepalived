@@ -8,7 +8,7 @@ global_defs {
 
 vrrp_script health_check {
   interval {{ env "KA_INTERVAL" }}
-  script "/bin/busybox wget -q -Y off -O /dev/null '{{ env "HEALTH_CHECK_URL" }}'"
+  script "/usr/bin/curl -ksSf -o /dev/null '{{ env "HEALTH_CHECK_URL" }}'"
 }
 
 {{ scratch.Set "local_priority" (modulo 256 (parseUint (printf "%.0f" (multiply 1000 (parseFloat (timestamp "00.000")))))) }}

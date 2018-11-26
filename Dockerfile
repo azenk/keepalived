@@ -12,7 +12,7 @@ RUN apk add --no-cache git
 RUN go get github.com/hashicorp/consul-template
 
 FROM alpine:latest
-RUN apk add --no-cache openssl libnl3 libnfnetlink
+RUN apk add --no-cache openssl libnl3 libnfnetlink curl
 COPY entrypoint.sh /usr/bin
 COPY keepalived.conf.ctmpl /etc/keepalived/
 COPY --from=0 /opt/keepalived/bin /usr/bin
