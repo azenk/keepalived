@@ -12,7 +12,7 @@ vrrp_script health_check {
   script "/usr/bin/curl -ksSf -o /dev/null '{{ env "HEALTH_CHECK_URL" }}'"
 {{- end }}
 {{- if ne (env "HEALTH_CHECK_TCP_PORT") "" }}
-  script "nc -z localhost {{env "HEALTH_CHECK_TCP_PORT"}}" 
+  script "/bin/busybox nc -z localhost {{env "HEALTH_CHECK_TCP_PORT"}}" 
 {{- end }}
 }
 
